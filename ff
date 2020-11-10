@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# ff - log fast feedback via sheetdb.io
+# Evan Baer <evan@evanbaer.com>
+#
+
+SHEETDB="https://sheetdb.io/api/v1/abcdefg" ## edit for your sheetdb entry
+PROMPT="How are you blocked?> "
+DATE=`date +"%m/%d/%Y"`
+ME=${USER}
+
+set -e
+
+echo -n "${PROMPT}"
+read MESSAGE
+
+curl -X POST -H "Content-Type: application/json" ${SHEETDB} -d "{\"data\":[{ \"id\": \"INCREMENT\", \"date\": \"${DATE}\", \"user\": \"${ME}\", \"message\": \"${MESSAGE}\" }]} " &> /dev/null
+echo "Logged: $MESSAGE"
+echo -n "Thanks for logging fast feedback!"
+echo -e "\xE2\x8F\xA9" ## prints out fast-forward emoji on mac
+
